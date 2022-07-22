@@ -1,0 +1,52 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+int main()
+{
+	std::fstream file("test.txt");
+
+	_int64 sum_do_ch = 0, sum_do_nch = 0, sum_posl_ch = 0, sum_posl_nch = 0;
+	int amount_of_lines, temp, last;
+
+	std::vector <int> array;
+
+	file >> amount_of_lines >> temp;
+
+	array.push_back(temp);
+
+	for (int counter = 1; counter < amount_of_lines; counter++) {
+		file >> temp;
+		array.push_back(temp);
+		
+		if (counter % 2 != 0)
+			sum_posl_ch += temp;
+		else
+			sum_posl_nch += temp;
+	}
+
+	file.close();
+
+	_int64 current_sum = array[0] + sum_posl_ch - sum_posl_nch, max_sum = current_sum;
+
+	for (int counter = 1; counter < array.size(); counter++) {
+		
+		temp = array[counter]; last = array[counter - 1];
+
+		std::swap(sum_do_nch, sum_do_ch);
+
+		sum_do_ch += last;
+		
+		sum_posl_ch -= temp;
+
+		std::swap(sum_posl_ch, sum_posl_nch);
+
+		current_sum = temp + sum_do_ch - sum_do_nch + sum_posl_ch - sum_posl_nch;
+
+		max_sum = std::max(max_sum, current_sum);
+	}
+
+	std::cout << max_sum;
+
+	return 0;
+}
