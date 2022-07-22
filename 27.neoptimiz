@@ -1,0 +1,57 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+int main()
+{
+	int amount_of_lines, temp;
+
+	std::fstream file("test.txt");
+
+	file >> amount_of_lines;
+
+	std::vector <int> array;
+
+	_int64 max_sum = -10'000'000, current_sum = 0;
+
+	for (int counter = 0; counter < amount_of_lines; counter++) {
+
+		file >> temp;
+		array.push_back(temp);
+
+	}
+
+	file.close();
+
+	for (int counter = 0; counter < array.size(); counter++) {
+
+		temp = array[counter];
+		current_sum = temp;
+		int kol = 0;
+
+		for (int i = counter - 1; i >= 0; i--) {
+			if (kol % 2 == 0)
+				current_sum += array[i];
+			else
+				current_sum -= array[i];
+			kol++;
+		}
+
+		kol = 0;
+
+		for (int i = counter + 1; i < array.size(); i++) {
+			if (kol % 2 == 0)
+				current_sum += array[i];
+			else
+				current_sum -= array[i];
+			kol++;
+		}
+
+		max_sum = std::max(max_sum, current_sum);
+
+	}
+
+	std::cout << max_sum;
+
+	return 0;
+}
