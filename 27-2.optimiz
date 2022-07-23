@@ -1,0 +1,51 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+int sum(int tmp)
+{
+	int s = 0;
+	while (tmp > 0) {
+		s += (tmp % 10);
+		tmp /= 10;
+	}
+	return s;
+}
+
+int main()
+{
+	std::fstream file("27!2b.txt");
+
+	std::vector < std::vector <int> > array;
+	
+	int k = 7, s = 28, n, temp;
+	_int64 kol_par = 0;
+
+	file >> n;
+
+	for (int i = 0; i < k; i++) {
+		array.push_back( {} );
+
+		for (int j = 0; j < s; j++) {
+			array[i].push_back(0);
+		}
+
+	}
+
+	int sum_ch_temp;
+
+	for (int counter = 0; counter < n; counter++) {
+		file >> temp;
+
+		sum_ch_temp = sum(temp);
+
+		kol_par += array[temp % 7][sum_ch_temp];
+
+		array[temp % 7][sum_ch_temp]++;
+
+	}
+
+	std::cout << kol_par;
+
+	return 0;
+}
